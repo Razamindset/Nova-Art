@@ -1,0 +1,5 @@
+farmao "Apna roll number likhen:"
+rakho roll = 0
+pocho roll
+farmao "Kia aapka roll number hai? :"
+farmao roll

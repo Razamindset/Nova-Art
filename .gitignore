@@ -1,5 +1,6 @@
 build
-.exe
+*.exe
 .env
 .cache
 .vscode
+tests/*.cpp
