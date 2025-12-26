@@ -1,5 +1,8 @@
 # 🌌 Nova-Art: Roman Urdu to C++ Transpiler
 
+![Version](https://img.shields.io/badge/version-1.0-blue)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+
 **Nova-Art** is a custom systems-programming tool that transforms **Roman Urdu** scripts into optimized, executable **C++ code**. By bridging the gap between native language expression and high-performance computing, Nova-Art makes programming more accessible and intuitive.
 
 ---
