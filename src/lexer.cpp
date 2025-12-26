@@ -86,8 +86,8 @@ void Lexer::identifier(){
     
     TokenType type = IDENTIFIER;
     // If the token exists in the dictionary then add to the tokens
-    if(keywords.count(text)){
-        type = keywords.at(text);
+    if(keywords.count(lowerText)){
+        type = keywords.at(lowerText);
     }
 
     addToken(type);
@@ -106,6 +106,6 @@ void Lexer::stringLiteral(){
 
     advance(); // consume the closing "
 
-    std::string value = source.substr(start, current - start);
+    std::string value = source.substr(start + 1, current - start - 2);
     tokens.push_back({STRING, value, line});
 }

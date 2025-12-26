@@ -1,5 +1,6 @@
 #include "Lexer.hpp"
 #include "Utils.hpp"
+#include "Parser.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -29,13 +30,33 @@ int main(int argc, char *argv[]) {
     Lexer lexer(buffer.str());
     std::vector<Token> tokens = lexer.scanTokens();
 
-    for (const auto &token : tokens) {
-        std::cout << "Type: " << tokenTypeToString(token.type) << " | Value: [" << token.lexeme
-                  << "]"
-                  << " | Line: " << token.line << std::endl;
+    Parser parser(tokens);
+    auto program = parser.parse();
+    
+    std::string cppCode = program->transpile();
+
+    // std::cout << "--- Transpiled C++ Code ---\n" << cppCode << std::endl;
+
+
+    // The the transpiled c++ code
+    std::string outFileName = "output.cpp";
+    std::ofstream outFile(outFileName);
+    outFile << cppCode;
+    outFile.close();
+    std::cout << "[Step 1] C++ code generated in output.cpp" << std::endl;
+
+    // Compile the generated code....
+    std::cout << "[Step 2] Compiling..." << std::endl;
+    int compileResult = std::system("g++ output.cpp -o app.exe");
+
+    if(compileResult == 0){
+        std::cout << "[Step 3] Success! Running your program:\n";
+        std::cout << "---------------------------------------" << std::endl << std::endl;
+        std::system(".\\app.exe");
+    } else {
+        std::cerr << "[Error] Compilation failed!" << std::endl;
     }
 
-    // std::cout<< "File Content: \n"<< buffer.str()<< std::endl;
 
     return 0;
 }

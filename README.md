@@ -1,52 +1,85 @@
 # 🌌 Nova-Art: Roman Urdu to C++ Transpiler
 
-**Nova-Art** is a custom systems-tool designed to bridge the gap between native language expression and C++ programming. It allows users to write logic in **Roman Urdu**, which is then analyzed, structured into an Abstract Syntax Tree (AST), and transpiled into optimized C++ code.
+**Nova-Art** is a custom systems-programming tool that transforms **Roman Urdu** scripts into optimized, executable **C++ code**. By bridging the gap between native language expression and high-performance computing, Nova-Art makes programming more accessible and intuitive.
 
 ---
 
-## 🛠 Project Status: Lexical Analysis Phase Complete ✅
+## 🛠 Project Status: End-to-End Pipeline Ready 🚀
 
-We have successfully implemented the **Lexer (Scanner)**. The engine can now tokenize raw Roman Urdu scripts, distinguishing between keywords, identifiers, strings, and operators.
+We have successfully moved beyond lexical analysis. The engine now features a complete "source-to-binary" pipeline.
 
-### Current Capabilities:
+### ✅ Completed Milestones:
 
-* **Tokenization:** Full support for vocabulary including `rakho`, `farmao`, and `pocho`.
-* **String Handling:** Robust string literal extraction (e.g., `"Hello World!"`).
-* **Identifier Management:** Case-insensitive recognition of variable names.
-* **Numeric Scanning:** Support for integer and decimal literals.
+* **Lexer (Scanner):** Full tokenization of Urdu keywords, literals, and operators.
+* **Recursive Descent Parser:** Hierarchical structuring of code into an **Abstract Syntax Tree (AST)**.
+* **Transpiler:** Context-aware conversion of AST nodes into C++17 source code.
+* **Automation Engine:** Integrated "one-click" compilation that invokes `g++` and runs the resulting binary automatically.
 
 ---
 
-## ✍️ Vocabulary & Syntax
+## ✍️ Language Features & Vocabulary
 
 | Nova-Art Keyword | C++ Equivalent | Purpose |
 | --- | --- | --- |
-| `rakho` | `auto` / `int` | Variable declaration and assignment |
+| `rakho` | `auto` | Variable declaration and assignment |
 | `farmao` | `std::cout` | Output/Print to console |
-| `pocho` | `std::cin` | User input |
-| `agar` | `if` | Conditional branch |
-| `warna` | `else` | Alternative branch |
-| `jabtak` | `while` | Loop construct |
+| `pocho` | `std::cin` | User input (Type-safe) |
+| `agar` | `if` | Conditional logic (Coming Soon) |
+| `jabtak` | `while` | Iterative loops (Coming Soon) |
 
 ---
 
-## 🚀 The Roadmap (Next Steps)
+## 📊 Capabilities & Limitations
 
-The project is moving into the **Structural Analysis** phase. Our upcoming goals are:
+To ensure a smooth developer experience, please note the current scope of the Nova-Art engine:
 
-1. **Phase 2: The Parser (In Progress):** * Implementation of a **Recursive Descent Parser**.
-* Converting the token stream into a hierarchical **Abstract Syntax Tree (AST)**.
+### 🌟 What you CAN do:
+
+* **Declare Variables:** Use `rakho name = 10`.
+* **Standard Output:** Print strings and variables using `farmao`.
+* **User Interaction:** Accept terminal input via `pocho`.
+* **Auto-Compile:** The tool automatically creates an `output.cpp` and compiles it into `app.exe`.
+* **Case Insensitivity:** Keywords like `Farmao`, `farmao`, and `FARMAO` are all recognized.
+
+### ⚠️ What you CANNOT do (Current Version):
+
+* **Complex Math:** Multi-step expressions (e.g., `rakho x = 10 + 5 * 2`) are currently being refined.
+* **Custom Functions:** All code currently lives within the `main()` scope.
+* **Error Recovery:** If a syntax error is found, the transpiler reports it but does not attempt to "fix" the code for compilation.
+
+---
+
+## 🚀 The Updated Roadmap
+
+With the core pipeline built, our next sprint focuses on **Turing Completeness**:
+
+1. **Phase 4: Logic Gates:** Implementing `agar` (if) and `warna` (else) nodes in the AST.
+2. **Phase 5: Loops:** Adding `jabtak` (while) for repetitive tasks.
+3. **Phase 6: Expression Parsing:** Upgrading the parser to handle complex mathematical formulas using the Shunting-yard algorithm or recursive precedence.
+
+---
+
+## 🔨 How to Use
+
+1. **Write your Nova-Art script** (e.g., `tests/hello.nova`):
+```urdu
+farmao "Apna naam likhen:"
+rakho naam = ""
+pocho naam
+farmao "Khushamdeed!"
+farmao naam
+
+```
 
 
-2. **Phase 3: Code Generation:**
-* Designing the "Visitor" logic to walk the AST.
-* Outputting standard C++17 source files.
+2. **Run the Transpiler:**
+```bash
+./build/Nova-Art tests/hello.nova
+
+```
 
 
-3. **Phase 4: Automation:**
-* Creating a "One-Click" build system that transpiles and compiles the `.nova` file into a runnable `.exe` using `g++`.
-
-
+3. **Result:** The engine will generate `output.cpp`, compile it, and launch your program instantly.
 
 ---
 
@@ -54,21 +87,7 @@ The project is moving into the **Structural Analysis** phase. Our upcoming goals
 
 * **Language:** C++17
 * **Build System:** CMake
-* **Architecture:** AST-based Transpilation
-* **Developer:** Solo Sprint (2-Week Timeline)
-
-## 🔨 How to Build (Current Version)
-
-```bash
-# Generate build files
-cmake -S . -B build
-
-# Compile the project
-cmake --build build
-
-# Run the Lexer test
-./build/Nova-Art tests/hello.nova
-
-```
+* **Compiler Requirements:** MinGW-w64 (g++) or Clang.
+* **Architecture:** Abstract Syntax Tree (AST) with Unique Pointer ownership.
 
 ---
