@@ -94,3 +94,8 @@ farmao naam
 * **Architecture:** Abstract Syntax Tree (AST) with Unique Pointer ownership.
 
 ---
+
+## Gratitudes
+A special shout-out to **[https://github.com/bfiza079-hub]** for the constant motivation and for pushing me to take this project from an idea to a working transpiler. This project wouldn't have reached v1.0 without your help!
+
+---
