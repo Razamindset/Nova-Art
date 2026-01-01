@@ -24,6 +24,7 @@ class Parser {
         std::unique_ptr<Node> parseVarDec();
         std::unique_ptr<Node> parsePrint();
         std::unique_ptr<Node> parsePocho();
+        std::unique_ptr<Node> parseConditional();
 
         // helper methods
         bool match(TokenType token); // Check if the current token is of the type

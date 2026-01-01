@@ -1,0 +1,11 @@
+rakho v = 3
+agar(v == 3){
+    farmao "name hai"
+    farmao "3"
+}
+
+rakho number = 111
+
+agar(number == 111){
+    farmao "AAP ka number mathch kar gaya..."
+}

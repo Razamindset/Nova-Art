@@ -24,55 +24,106 @@ class ProgramNode : public Node {
         std::string output = "#include<iostream>\n#include<string>\nint main() {\n";
 
         // Now we can loop and transpile each Node
-        for(const auto& stm : statements){
+        for (const auto &stm : statements) {
             output += "    " + stm->transpile() + "\n";
         }
 
-        output += "return 0;\n}";
+        output += "    return 0;\n}";
 
         return output;
     }
 };
 
 class PrintNode : public Node {
-    public:
-        PrintNode(std::string c, bool s): content(c), isString(s) {};
-        std::string transpile() override {
-            if(isString) return "std::cout<<\"" + content + "\" << std::endl;";
-            return "std::cout<<" + content + " << std::endl;";
-        }
-    private:
-        std::string content;
-        bool isString;
-}; 
+  public:
+    PrintNode(std::string c, bool s) : content(c), isString(s) {};
+    std::string transpile() override {
+        if (isString)
+            return "std::cout<<\"" + content + "\" << std::endl;";
+        return "std::cout<<" + content + " << std::endl;";
+    }
+
+  private:
+    std::string content;
+    bool isString;
+};
 
 class InputNode : public Node {
-    public:
-        InputNode(std::string name): varName(name) {};
-        std::string transpile() override {
-            return "std::cin>>" + varName + ";";
-        }
-    private:
-        std::string varName;
-}; 
+  public:
+    InputNode(std::string name) : varName(name) {};
+    std::string transpile() override { return "std::cin>>" + varName + ";"; }
+
+  private:
+    std::string varName;
+};
 
 class VarDeclNode : public Node {
-    public:
-        VarDeclNode(std::string c, std::string v): name(c), value(v) {}
-        std::string transpile() override {
-            bool isLikelyString = false;
+  public:
+    VarDeclNode(std::string c, std::string v) : name(c), value(v) {}
+    std::string transpile() override {
+        bool isLikelyString = false;
 
-            if(!value.empty() && !isdigit(value[0])){
-                isLikelyString = true;
-            }
-
-            if(value == "\"\"" || value == "") {
-                return "std::string " + name + ";"; // Better for empty Urdu strings
-            }
-            
-            return "auto " + name + " = " + value + ";";
+        if (!value.empty() && !isdigit(value[0])) {
+            isLikelyString = true;
         }
+
+        if (value == "\"\"" || value == "") {
+            return "std::string " + name + ";"; // Better for empty Urdu strings
+        }
+
+        return "auto " + name + " = " + value + ";";
+    }
+
+  private:
+    std::string name;
+    std::string value;
+};
+
+class ConditionalContentNode : public ProgramNode {
+  public:
+    std::string transpile() override {
+        std::string output = "";
+        for (const auto &stm : statements) {
+            output += stm->transpile();
+        }
+
+        return output;
+    }
+
+  private:
+};
+
+class ConditionNode : public Node {
+  public:
+    ConditionNode(std::string v1, std::string v2, std::unique_ptr<ConditionalContentNode> cnt)
+        : value1(v1), value2(v2), content(std::move(cnt)) {};
+
+    std::string transpile() override {
+        std::string header = "if( " + value1 + " == " + value2 + " ) {\n";
+        std::string body = "";
+
+        for(const auto& stm: content->statements){
+            body += "\n        " + stm->transpile();
+        }
+
+        std::string closing = "\n    }\n";
+
+        return header + body + closing;
+    }
+
+  private:
+    std::string value1;
+    std::string value2;
+    std::unique_ptr<ConditionalContentNode> content;
+};
+
+class LoopNode : public Node { 
+    public:
+      LoopNode() {};
+
+      std::string transpile() override {
+        return "";
+      }
+
     private:
-        std::string name;
-        std::string value;
 };

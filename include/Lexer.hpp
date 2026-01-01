@@ -25,7 +25,10 @@ enum TokenType {
     SLASH,
     LEFT_PAREN,
     RIGHT_PAREN,
+    LEFT_BRAKET,
+    RIGHT_BRAKET,
     COLON,
+    COMPARISON,
 
     // Meta
     END_OF_FILE,
@@ -53,6 +56,7 @@ class Lexer {
 
         static const std::unordered_map<std::string, TokenType> keywords;
 
+        bool match(char expected);
         bool isAtEnd(){ return current >= source.length(); };
         char advance(){ return source[current++]; };
         void addToken(TokenType token);

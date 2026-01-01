@@ -16,6 +16,14 @@ std::vector<Token> Lexer::scanTokens(){
     return tokens;
 }
 
+bool Lexer::match(char expected){
+    if(isAtEnd()) return false;
+    if(source[current] != expected) return false;
+
+    current++;
+    return true;
+}
+
 void Lexer::addToken(TokenType type){
     std::string text = source.substr(start, current - start);
     tokens.push_back({type, text, line});
@@ -50,11 +58,16 @@ void Lexer::scanToken(){
     switch (c){
         case '(': addToken(LEFT_PAREN); break;
         case ')':addToken(RIGHT_PAREN); break;
+        case '{': addToken(LEFT_BRAKET); break;
+        case '}': addToken(RIGHT_BRAKET); break;
         case '+':addToken(PLUS); break;
         case '-':addToken(MINUS); break;
         case '*':addToken(STAR); break;
         case '/':addToken(SLASH); break;
-        case '=':addToken(EQUALS); break;
+        case '=': 
+            // if the next token is a double ==  then it is a comparison
+            addToken(match('=') ? COMPARISON: EQUALS);
+            break;
         case ':':addToken(COLON); break;
         case '"': stringLiteral(); break;
         case ' ':

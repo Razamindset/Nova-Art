@@ -23,6 +23,7 @@ std::unique_ptr<Node> Parser::parseStatement(){
     if(match(RAKHO)) return parseVarDec();
     if(match(FARMAO)) return parsePrint();
     if(match(POCHO)) return parsePocho();
+    if(match(AGAR)) return parseConditional();
 
     // If we don't recognize the token
     if(!isAtEnd()){
@@ -54,6 +55,37 @@ std::unique_ptr<Node> Parser::parsePocho(){
     Token name = consume(IDENTIFIER, "Need variable name after Pocho");
 
     return std::make_unique<InputNode>(name.lexeme);
+}
+
+std::unique_ptr<Node> Parser::parseConditional(){
+    // Conditional header
+    consume(LEFT_PAREN, "Expected: ( after agar");
+    Token value1 = consume(IDENTIFIER, "Expected: first value for evluation");
+
+    consume(COMPARISON, "Expected == (comparison operator) after Identifier.");
+
+    // Could be identifier or a number or string
+    Token value2 = advance();
+
+    consume(RIGHT_PAREN, "Expected: ) to end the conditional.");
+    consume(LEFT_BRAKET, "Expected: { to start the If body");
+
+    // body for the conditional
+    
+    auto content  = std::make_unique<ConditionalContentNode>();
+    while (!check(RIGHT_BRAKET) && !isAtEnd()){
+        auto stm = parseStatement();
+
+        if(stm){
+            content->statements.push_back(std::move(stm));
+        }
+    }
+
+    // Closing parans
+    consume(RIGHT_BRAKET, "Expected: } for ending the conditional");
+
+    // Create the node with this data...
+    return std::make_unique<ConditionNode>(value1.lexeme, value2.lexeme, std::move(content));
 }
 
 // helpers
